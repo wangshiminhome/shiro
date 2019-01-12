@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wsm.dao.IUserDAO">
+	<select id="findByName" parameterType="String" resultMap="userAndRoleAndPermission">
+		select u.*,r.*,p.* from user u,role r,user_role ur,permission p,role_permission rp where u.userid=ur.userid and r.roleid=ur.roleid and p.perid=rp.perid and r.roleid=rp.roleid and u.username=#{username}
+	</select>
+	<resultMap type="User" id="userAndRoleAndPermission">
+		<id column="USERID" property="userid"/>
+		<result column="USERNAME" property="username"/>
+		<result column="PASSWORD" property="password"/>
+		<collection property="roles" column="ROLEID" javaType="java.util.Set" ofType="Role">
+			<id column="ROLEID" property="roleid"/>
+			<result column="ROLENAME" property="rolename"/>
+			<collection property="perms" column="perid" javaType="java.util.Set" ofType="Permission">
+				<id column="PERID" property="perid"/>
+				<result column="PERNAME" property="pername"/>
+			</collection>
+		</collection>
+	</resultMap>
+	<!-- <resultMap type="User" id="userMap">
+		<id column="USERID" property="userid"/>
+		<result column="USERNAME" property="username"/>
+		<result column="PASSWORD" property="password"/>
+	</resultMap>
+	<select id="getUserName" parameterType="String" resultType="User">
+		select * from t_user where username=#{username}
+	</select>
+	<select id="getRoles" parameterType="String" resultType="String">
+		select role.rolename from user,role where role.roleid=user.roleid and user.username=#{username}
+	</select>
+	<select id="getPermissions" parameterType="String" resultType="String">
+		select permission.pername from user,role,permission where user.roleid=role.roleid and permission.roleid=role.roleid and user.username=#{username}
+	</select> -->
+</mapper>

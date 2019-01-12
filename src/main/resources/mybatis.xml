@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 设置方言 -->
+	<properties> 
+		<property name="dialect" value="mysql" /> 
+	</properties>
+	<!--配置延迟加载属性，首先打开延迟加载，然后关闭及时加载-->  
+	 <settings>  
+		 <!-- logImpl是用来在控制台打印sql语句的 -->
+	 	 <setting name="logImpl" value="STDOUT_LOGGING"/>
+		 <setting name="lazyLoadingEnabled" value="true"/>
+		 <setting name="aggressiveLazyLoading" value="false"/>
+	 </settings>
+	
+	<!-- 设置别名 -->
+   <typeAliases>
+		<typeAlias type="com.wsm.po.User" alias="User"/>
+		<typeAlias type="com.wsm.po.Role" alias="Role"/>
+		<typeAlias type="com.wsm.po.Permission" alias="Permission"/>
+   </typeAliases>
+   <!-- 分页查询 -->
+   <plugins>  
+	    <plugin interceptor="com.github.pagehelper.PageHelper">  
+	        <property name="dialect" value="mysql"/>  
+	        <property name="offsetAsPageNum" value="true"/>  
+	        <!-- rowBoundsWithCount设置为true时，使用 RowBounds 分页会进行 count 查询。 -->  
+	        <property name="rowBoundsWithCount" value="true"/>  
+	        <!-- pageSizeZero 为 true， 当 pageSize=0 或者 RowBounds.limit = 0 就会
+	                   查询出全部的结果 -->  
+	        <property name="pageSizeZero" value="true"/>  
+	        <!-- reasonable 为 true，这时如果 pageNum<=0 会查询第一页，如果 pageNum>总页数 
+	                   会查询最后一页 -->  
+	        <property name="reasonable" value="true"/>  
+	        <property name="returnPageInfo" value="check"/>  
+	    </plugin>  
+ 	</plugins>
+   
+   <!-- 配置映射文件 -->
+   <mappers>
+		<mapper resource="com/wsm/dao/User.xml"/>
+   </mappers>
+</configuration>
